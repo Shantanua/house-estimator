@@ -20,14 +20,14 @@ class ZillowPipeline(object):
     
     def process_item(self, item, spider):    
         try:
-            print "Jumba joice ############################################"
-            self.cursor.execute("""INSERT INTO zillow_db.homesSold (zillowhomeid,
+            self.cursor.execute("""INSERT INTO zillow_db.homesSoldNJ (zillowhomeid,
             sale_price,
             address,
             zipcode,
             city,
             state,
             street,
+            road,
             avenue,
             beds,
             baths,
@@ -120,6 +120,7 @@ class ZillowPipeline(object):
 %s,
 %s,
 %s,
+%s,
 %s
 )""", 
                                    (item['title']['zillowhomeid'],
@@ -129,6 +130,7 @@ item['title']['zipcode'],
 item['title']['city'],
 item['title']['state'],
 item['title']['street'],
+item['title']['road'],
 item['title']['avenue'],
 item['title']['beds'],
 item['title']['baths'],
