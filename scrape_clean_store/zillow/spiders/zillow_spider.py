@@ -17,13 +17,19 @@ from zillow.items import zillowItem
 from zillow.spiders.clean_function import cleanDicts
 from zillow.spiders.clean_function import cleanSingleLines
 import re
-
+import pickle
 
 class nzillowpider(CrawlSpider):
     name = "zillow_s2"
     allowed_domains = ["www.zillow.com"]
-    start_urls = ['http://www.zillow.com/homes/recently_sold/07305']
-    
+    with open('/home/vagrant/house-estimator/scrape_clean_store/list_of_zipcodes') as handler:
+        list_of_links = pickle.load(handler)
+
+    #temp = ['http://www.zillow.com/homes/recently_sold/' + i for i in list_of_links] 
+    start_urls = ['http://www.zillow.com/homes/recently_sold/07481']
+    #print temp
+    #start_urls = temp
+
     rules = [
             Rule(LinkExtractor(allow = ['/homedetails/.*']), follow=False, callback = 'parse_item'),
             Rule(LinkExtractor(allow = ['/homes/recently_sold/\d{5}.*/\d+_p/']), follow = True)

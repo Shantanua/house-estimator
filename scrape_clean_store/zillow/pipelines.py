@@ -6,21 +6,22 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import sys
-import MySQLdb
+#import MySQLdb
 import hashlib
 from scrapy.exceptions import DropItem
 from scrapy.http import Request
-import mysql.connector
+#import mysql.connector
+import psycopg2
 
 class ZillowPipeline(object):
     
     def __init__(self):
-            self.cnx = mysql.connector.connect(user = 'root', password = 'root', database = 'zillow_db', host = '127.0.0.1')
+            self.cnx = psycopg2.connect(user = 'postgres', password = 'postgres', dbname = 'zillow_db', host = '127.0.0.1')
             self.cursor = self.cnx.cursor()
     
     def process_item(self, item, spider):    
         try:
-            self.cursor.execute("""INSERT INTO zillow_db.homesSoldNJ (zillowhomeid,
+            self.cursor.execute("""INSERT INTO homessold (zillowhomeid,
             sale_price,
             address,
             zipcode,
@@ -178,8 +179,8 @@ item['title']['heating']
                                )
             self.cnx.commit()
 
-        except MySQLdb.Error, e:
-            print "Error %d: %s" % (e.args[0], e.args[1])
+        except psycopg2.Error as e:
+            print "Error %s" % (e.pgerror)
 
 
         return item
