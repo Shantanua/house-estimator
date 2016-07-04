@@ -20,24 +20,22 @@ import pickle
 class dzillowpider(CrawlSpider):
     name = "download_z"
     allowed_domains = ["www.zillow.com"]
-    list_of_links = ['10022',
-			'10023',
-			'10024',
-			'10025',
-			'10026',
-			'10027',
-			'10028',
-			'10029',
-			'10030',
-			'10031',
-			'10032',
-			'10033',
-			'10034',
-			'10035',
-			'10036',
-			'10037',
-			'10038',
-			'10039']
+    list_of_links = ['10472',
+		'10473',
+		'10474',
+		'10475',
+		'10301',
+		'10302',
+		'10303',
+		'10304',
+		'10305',
+		'10306',
+		'10307',
+		'10308',
+		'10309',
+		'10310',
+		'10312',
+		'10314']
 
     temp = ['http://www.zillow.com/homes/recently_sold/' + i for i in list_of_links] 
     print temp
@@ -47,7 +45,7 @@ class dzillowpider(CrawlSpider):
             Rule(LinkExtractor(allow = ['/homes/recently_sold/\d{5}.*/\d+_p/']), follow = True)
     ]
         
-    def parse(self, response):
+    def parse_item(self, response):
        try:
            body_fileName = re.sub('\/+','_',response.url)
            body_fileName2 = re.sub('\:','_', body_fileName)
